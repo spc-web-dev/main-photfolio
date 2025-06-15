@@ -1,9 +1,10 @@
+import HomepageContainer from "@/components/homepage/homepage-container";
 
 
 export default function Home() {
   return (
-    <div>
-      Homepage
+    <div className="flex justify-center">
+      <HomepageContainer />
     </div>
   );
 }

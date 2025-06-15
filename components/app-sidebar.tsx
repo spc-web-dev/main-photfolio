@@ -5,6 +5,7 @@ import {
   BookOpen,
   Bot,
   Frame,
+  Home,
   Info,
   Map,
   PieChart,
@@ -33,6 +34,11 @@ const data = {
     avatar: "/avatars/shadcn.jpg",
   },
   navMain: [
+    {
+      title:"Home",
+      url: "/",
+      icon: Home,
+    },
     {
       title:"About Me",
       url: "/dashboard",
