@@ -13,8 +13,8 @@ import Link from "next/link";
 
 function ProductCard({}) {
   return (
-    <Card className="max-w-sm">
-      <div className="relative w-full h-[300px] max-h-[300px] overflow-hidden">
+    <Card className="md:max-w-sm max-w-[85%]">
+      <div className="relative w-full h-[300px] md:max-h-[300px] overflow-hidden">
           <Image
             src="/images/mk.png"
             alt="Product Image"
