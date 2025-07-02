@@ -15,6 +15,7 @@ export default withAuth(
         callbacks: {
             authorized: ({ token }) => {
                 // Allow access if the user is authenticated
+                console.log('token:', token);
                 return true;
             },
         }

@@ -2,6 +2,9 @@ import NextAuth from "next-auth"
 import type { NextAuthOptions } from "next-auth"
 import GoogleProvider from "next-auth/providers/google"
 import CredentialsProvider from "next-auth/providers/credentials"
+import db from "@/db"
+import { usersTable } from "@/db/schema"
+import { eq } from "drizzle-orm"
 
 
 
@@ -19,16 +22,26 @@ export const authOptions: NextAuthOptions = {
             password: { label: "Password", type: "password" }
         },
         async authorize(credentials) {
-        // This is where you'd look up the user in your database.
-        // For this example, we'll use a dummy user.
-        if (credentials?.email === "sann@gmail.com" && credentials?.password === "123456") {
-          return { id: "1", name: "Test User", email: "sann@gmail.com" };
+        if(!credentials?.email || !credentials?.password) return null;
+        const user = await db.select().from(usersTable).where(eq(usersTable.email, credentials?.email))
+        if(user.length <= 0) return null;
+        if (user && user[0].password === credentials?.password) {
+          return { id: user[0].id, name: user[0].username, email: user[0].email };
         }
         // Return null if user data could not be retrieved
         return null;
       }
     })
   ],
+  callbacks: {
+    async jwt({ token, user }) {
+      if (user) {
+        token.id = user.id
+        token.email = user.email
+      }
+      return token
+    },
+  },
   pages: {
     signIn: '/sign-in',
   }

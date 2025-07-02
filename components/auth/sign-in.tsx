@@ -45,9 +45,9 @@ export default function SignIn() {
         type: "success",
         content: `Already authenticated as ${session.user?.email}`,
       });
-      addLine({ type: "output", content: "Redirecting to homepage..." });
+      addLine({ type: "output", content: "Redirecting to dashboard..." });
       setTimeout(() => {
-        router.push("/");
+        router.push("/dashboard");
       }, 2000);
     }
   }, [status, session, router]);
@@ -82,7 +82,7 @@ export default function SignIn() {
     const trimmedInput = input.trim();
 
     // Add the command to terminal
-    addLine({ type: "command", content: `$ ${trimmedInput}` });
+    // addLine({ type: "command", content: `$ ${trimmedInput}` });
 
     if (isWaitingForInput) {
       handleAuthInput(trimmedInput);
@@ -143,7 +143,6 @@ export default function SignIn() {
             type: "success",
             content: `Signed in as: ${session?.user?.email}`,
           });
-          //   addLine({ type: "output", content: `User ID: ${session?.user?.id}` })
           addLine({ type: "output", content: `Name: ${session?.user?.name}` });
         } else {
           addLine({ type: "output", content: "Not authenticated" });
@@ -152,8 +151,7 @@ export default function SignIn() {
 
       case "clear":
         setLines([
-          { type: "output", content: "Welcome to AuthTerminal v2.0.0" },
-          { type: "output", content: "Powered by NextAuth.js" },
+          { type: "output", content: "Welcome to RESSANN Portfolio" },
           { type: "output", content: 'Type "help" for available commands' },
           { type: "output", content: "" },
         ]);
@@ -268,16 +266,12 @@ export default function SignIn() {
             type: "error",
             content: "Invalid credentials. Please try again.",
           });
-        //   addLine({
-        //     type: "output",
-        //     content: "Hint: Try user@example.com / password123",
-        //   });
         } else {
           addLine({
             type: "success",
             content: `Successfully signed in as ${authData.email}`,
           });
-          addLine({ type: "output", content: "Redirecting to homepage..." });
+          addLine({ type: "output", content: "Redirecting to dashboard..." });
 
           setTimeout(() => {
             router.push("/dashboard");
