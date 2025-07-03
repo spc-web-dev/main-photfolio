@@ -26,6 +26,7 @@ export const authOptions: NextAuthOptions = {
         const user = await db.select().from(usersTable).where(eq(usersTable.email, credentials?.email))
         if(user.length <= 0) return null;
         if (user && user[0].password === credentials?.password) {
+          await db.update(usersTable).set({ isActive: true }).where(eq(usersTable.id, user[0].id))
           return { id: user[0].id, name: user[0].username, email: user[0].email };
         }
         // Return null if user data could not be retrieved

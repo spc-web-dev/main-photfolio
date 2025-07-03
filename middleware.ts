@@ -13,10 +13,11 @@ export default withAuth(
     },
     {
         callbacks: {
-            authorized: ({ token }) => {
-                // Allow access if the user is authenticated
-                console.log('token:', token);
-                return true;
+            authorized: ({ token, req }) => {
+                if(req.nextUrl.pathname.startsWith('/dashboard') || req.nextUrl.pathname.startsWith('/api')) {
+                    return !!token;
+                }
+                return true
             },
         }
     }

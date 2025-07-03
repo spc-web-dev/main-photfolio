@@ -29,6 +29,8 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar"
+import { signOut, useSession } from "next-auth/react"
+import { updateIsActiveUserByEmail } from "@/lib/users/update-user"
 
 export function NavUser({
   user,
@@ -40,6 +42,17 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+
+  const { data: session } = useSession()
+
+  const handleSignOut = async () => {
+    if(session?.user) {
+      await updateIsActiveUserByEmail(session.user.email as string, {
+        isActive: false,
+      })
+      await signOut({ callbackUrl: "/" })
+    }
+  }
 
   return (
     <SidebarMenu>
@@ -102,7 +115,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>
